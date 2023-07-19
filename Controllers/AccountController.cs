@@ -21,9 +21,8 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> HandleGoogleResponse()
     {
         var authenticateResult = await HttpContext.AuthenticateAsync();
-        // Handle the authentication result, e.g., retrieve user information and generate tokens
 
-        // Redirect or return appropriate response
-        return Ok();
+        //TODO: Redirect to required screen
+        return Redirect("/user");
     }
 }
