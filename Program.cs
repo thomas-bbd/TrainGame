@@ -30,6 +30,7 @@ internal class Program
         });
 
         var app = builder.Build();
+        app.MapGet("/", () => "Hello");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
