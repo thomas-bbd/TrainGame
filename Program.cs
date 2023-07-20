@@ -11,42 +11,40 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        // builder.Services.AddControllers();
-        // builder.Services.AddEndpointsApiExplorer();
-        // builder.Services.AddSwaggerGen();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-        // var configuration = builder.Configuration;
+        var configuration = builder.Configuration;
 
-        // builder.Services.AddAuthentication(options =>
-        // {
-        //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        //     options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-        // })
-        // .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-        // .AddGoogle(options =>
-        // {
-        //     options.ClientId = configuration["Authentication:Google:ClientId"] ?? throw new ArgumentNullException("Authentication:Google:ClientId");
-        //     options.ClientSecret = configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
-        // });
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        })
+        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddGoogle(options =>
+        {
+            options.ClientId = configuration["Authentication:Google:ClientId"] ?? throw new ArgumentNullException("Authentication:Google:ClientId");
+            options.ClientSecret = configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
+        });
 
         var app = builder.Build();
         app.MapGet("/", () => "Hello");
 
         // Configure the HTTP request pipeline.
-        // if (app.Environment.IsDevelopment())
-        // {
-        //     app.UseSwagger();
-        //     app.UseSwaggerUI();
-        // }
-        // app.UseSwagger();
-        // app.UseSwaggerUI();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
         // app.UseHttpsRedirection();
 
-        // app.UseAuthentication();
-        // app.UseAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
-        // app.MapControllers();
+        app.MapControllers();
 
         app.Run();
     }
