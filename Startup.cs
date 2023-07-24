@@ -5,6 +5,8 @@ using TrainGame.Services;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace TrainGame
 {
@@ -13,20 +15,20 @@ namespace TrainGame
         private readonly IConfiguration Configuration;
 
         public Startup(IConfiguration configuration) => Configuration = configuration;
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddSwaggerGen();
 
-			services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-			services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
                 // Adds a custom error response factory when ModelState is invalid
                 options.InvalidModelStateResponseFactory = InvalidModelStateResponseFactory.ProduceErrorResponse;
             });
-            
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -41,6 +43,12 @@ namespace TrainGame
 
             services.AddSingleton<IRandomGeneratorService, RandomGeneratorService>();
             services.AddSingleton<IGameService, GameService>();
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                                 ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,7 +63,7 @@ namespace TrainGame
             app.UseSwaggerUI();
 
             app.UseRouting();
-            app.UseAuthorization();     
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
