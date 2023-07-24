@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using TrainGame.Domain.Services;
+using TrainGame.Domain.Models;
+
 
 namespace TrainGame.Controllers;
 
@@ -6,6 +9,13 @@ namespace TrainGame.Controllers;
 [Route("[controller]")]
 public class GameController : ControllerBase
 {
+    private readonly IGameService _gameService;
+
+    public GameController(IGameService gameService)
+    {
+        _gameService = gameService;
+    }
+
     [HttpGet]
     public IActionResult GetGame()
     {
@@ -20,5 +30,11 @@ public class GameController : ControllerBase
         var data = new { message = "Hello, I am a train!" };
         
         return Ok(data);
+    }
+
+    [HttpGet("Game")]
+    public Game CreateGame()
+    {
+        return _gameService.CreateGame();
     }
 }
