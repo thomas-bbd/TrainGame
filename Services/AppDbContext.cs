@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
+using TrainGame.Domain.Models;
 namespace TrainGame.Services
 {
     public class AppDbContext : DbContext
@@ -8,9 +8,6 @@ namespace TrainGame.Services
         {
         }
 
-        // DbSet properties for your database tables
-        // For example:
-        // public DbSet<Item> Items { get; set; }
-        // public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; } 
     }
 }

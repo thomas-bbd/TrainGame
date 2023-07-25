@@ -47,7 +47,7 @@ namespace TrainGame
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
-                                 ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
+                    ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
             });
         }
 
