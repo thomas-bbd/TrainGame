@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Services;
 using TrainGame.Domain.Models;
-
-
 namespace TrainGame.Controllers;
 
 [ApiController]

@@ -5,38 +5,32 @@ namespace TrainGame.Services
 {
     public class GameService : IGameService
     {
-        private Dictionary<string, Game> _liveGames;
+        private Dictionary<string, Game> _liveGames = new Dictionary<string, Game>();
         private IRandomGeneratorService _randomGenerator;
-
-        public GameService()
-        {
-            _liveGames = new Dictionary<string, Game>();
-            _randomGenerator = new RandomGeneratorService();
-        }
+        private IQuestionService _questionService;
         
-        public GameService(IRandomGeneratorService randomGeneratorService)
+        public GameService(IRandomGeneratorService randomGeneratorService, IQuestionService questionService)
         {
             _liveGames = new Dictionary<string, Game>();
             _randomGenerator = randomGeneratorService;
+            _questionService = questionService;
         }
 
         public bool CheckAnswer(string gameId, string answer)
         {
-            //Needs question format to really be written
-            //Get game object
-            //Get current question in game obejct
-            //check answer
             //if correct send object containing score and next question? Or Just score and user clicks a button to get next question?
             //if incorrect redirect to game over screen? Or send incorrect and user clicks button?
             Game game;
             if (_liveGames.TryGetValue(gameId, out game)) 
             {
-                if (String.Equals(answer, game.currentQuestion.answer, StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(answer, "YES", StringComparison.OrdinalIgnoreCase) && game.currentQuestion.isObjectHeavier()) //kinda sucks
                 {
                     game.IncreaseScore();
                     return true;
+                } else if (String.Equals(answer, "NO", StringComparison.OrdinalIgnoreCase) && !game.currentQuestion.isObjectHeavier()){
+                    return true; //??
                 } else {
-                    return false; //??
+                    return false;
                 }
             }
             else
@@ -53,23 +47,20 @@ namespace TrainGame.Services
             return game;
         }
 
-        public string NextQuestion(string gameId)
+        public Question NextQuestion(string gameId)
         {
-            //Needs DB stuff to actually be written
-            //Given a game ID this function will select a question from the DB that isn't already contained in the Games' previous questions list
             Game game;
             if (_liveGames.TryGetValue(gameId, out game)) 
             {
-                //actually get next question
+                Question question = _questionService.GetQuestion(ref game.previousQuestions);
+                game.currentQuestion = question;
+                return question;
             }
             else
             {
                 throw new ArgumentException("gameId doesn't correspond to a game");
             }
-            
-            throw new NotImplementedException();
         }
-
 
         private string CreateId()
         {
