@@ -44,6 +44,7 @@ namespace TrainGame
                 options.ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
             });
 
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ITrainRepository, TrainRepository>();
             services.AddSingleton<IObjectRepository, ObjectRepository>();
             services.AddSingleton<ITrainService, TrainService>();

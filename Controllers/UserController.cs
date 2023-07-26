@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Models;
+using TrainGame.Domain.Repository;
 using TrainGame.Persistence.Contexts;
 
 namespace TrainGame.Controllers;
@@ -10,10 +11,10 @@ namespace TrainGame.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly AppDbContext _dbContext;
-    public UserController(AppDbContext dbContext)
+    private readonly IUserRepository _userRepository;
+    public UserController(IUserRepository userRepository)
     {
-        _dbContext = dbContext;
+        _userRepository = userRepository;
     }
 
     [HttpGet]
@@ -24,7 +25,7 @@ public class UserController : ControllerBase
             var userName = HttpContext.User.Identity.Name;
 
             // Get the user based on the userName
-            User? user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            var user = _userRepository.GetUser(userName);
 
             if (user != null)
             {
@@ -49,7 +50,7 @@ public class UserController : ControllerBase
             var userName = HttpContext.User.Identity.Name;
 
             // Check if the user already exists
-            User? existingUser = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            var existingUser = _userRepository.GetUser(userName);
             if (existingUser != null)
             {
                 return BadRequest("User already exists");
@@ -62,11 +63,7 @@ public class UserController : ControllerBase
                 highScore = 0
             };
 
-            // Add the new user to the Users DbSet
-            _dbContext.Users.Add(newUser);
-
-            // Save changes to persist the new user in the database
-            _dbContext.SaveChanges();
+            _userRepository.AddUser(newUser);
 
             return Ok("User added");
         }
@@ -83,7 +80,7 @@ public class UserController : ControllerBase
         {
             var userName = HttpContext.User.Identity.Name;
 
-            User? user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            var user = _userRepository.GetUser(userName);
             if (user != null)
             {
                 int highScore = user.highScore;
@@ -92,7 +89,6 @@ public class UserController : ControllerBase
             else
             {
                 return NotFound("No such user " + userName);
-                // Just check this log
             }
 
         }
@@ -103,13 +99,25 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Score/Update")]
-    public IActionResult PostUserScore()//[FromBody] MyModel model)
+    public IActionResult PostUserScore(int Score)//[FromBody] MyModel model)
     {
-        // Logic to process the posted data
-        // model parameter contains the data sent in the request body
+        try
+        {
+            var userName = HttpContext.User.Identity.Name;
 
-        // Return a response, such as success status or created resource
-        var result = new { message = "Data received successfully" };
-        return Ok(result);
+            var user = new User
+            {
+                userName = userName,
+                highScore = 0
+            };
+
+            _userRepository.UpdateUserScore(user);
+
+            return Ok("User added");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
     }
 }
