@@ -74,14 +74,14 @@ main {
   justify-content: space-around;
 }
 
-.game-options-container span {
+.game-options-container article {
   width: 45%;
   height: 3rem;
   border: 2px solid darkgray;
   border-radius: 20px;
   overflow: hidden;
 }
-span label {
+article label {
   width: 100%;
   height: 100%;
   display: flex;
@@ -93,7 +93,7 @@ span label {
   color: rgb(22, 22, 22);
 }
 
-span label:hover {
+article label:hover {
   -ms-transform: scale(1.12);
   -webkit-transform: scale(1.12);
   transform: scale(1.12);
