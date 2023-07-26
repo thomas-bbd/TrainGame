@@ -51,7 +51,6 @@ namespace TrainGame
             services.AddSingleton<IOptionRepository, OptionRepository>();
             services.AddSingleton<IRandomGeneratorService, RandomGeneratorService>();
             services.AddSingleton<IGameService, GameService>();
-
             services.AddSingleton<IQuestionService, QuestionService>();
         }
 

@@ -23,14 +23,21 @@ namespace TrainGame.Services
             Game game;
             if (_liveGames.TryGetValue(gameId, out game)) 
             {
-                if (String.Equals(answer, "YES", StringComparison.OrdinalIgnoreCase) && game.currentQuestion.isObjectHeavier()) //kinda sucks
+                if (!game.gameOver){
+                    if (String.Equals(answer, "YES", StringComparison.OrdinalIgnoreCase) && game.currentQuestion.isObjectHeavier()) //kinda sucks
+                    {
+                        game.IncreaseScore();
+                        return true;
+                    } else if (String.Equals(answer, "NO", StringComparison.OrdinalIgnoreCase) && !game.currentQuestion.isObjectHeavier()){
+                        return true; //??
+                    } else {
+                        game.gameOver = true;
+                        return false;
+                    }
+                }
+                else
                 {
-                    game.IncreaseScore();
-                    return true;
-                } else if (String.Equals(answer, "NO", StringComparison.OrdinalIgnoreCase) && !game.currentQuestion.isObjectHeavier()){
-                    return true; //??
-                } else {
-                    return false;
+                    return false; //??
                 }
             }
             else
@@ -47,14 +54,14 @@ namespace TrainGame.Services
             return game;
         }
 
-        public Question NextQuestion(string gameId)
+        public Game NextQuestion(string gameId)
         {
             Game game;
             if (_liveGames.TryGetValue(gameId, out game)) 
             {
                 Question question = _questionService.GetQuestion(ref game.previousQuestions);
                 game.currentQuestion = question;
-                return question;
+                return game;
             }
             else
             {

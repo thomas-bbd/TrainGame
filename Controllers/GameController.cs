@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Services;
 using TrainGame.Domain.Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrainGame.Controllers;
 
@@ -20,8 +20,7 @@ public class GameController : ControllerBase
     public Game CreateGame()
     {
         Game game = _gameService.CreateGame();
-        game.currentQuestion = _gameService.NextQuestion(game.id);
-        return game;
+        return _gameService.NextQuestion(game.id);
     }
 
     [HttpGet("Answer")]
@@ -31,7 +30,7 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("Question")]
-    public Question Question(string gameId)
+    public Game Question(string gameId)
     {
         return _gameService.NextQuestion(gameId);
     }
