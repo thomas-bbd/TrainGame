@@ -1,7 +1,10 @@
 using TrainGame.Controllers.Config;
 using TrainGame.Domain.Services;
+using TrainGame.Domain.Repository;
 using TrainGame.Extensions;
 using TrainGame.Services;
+using TrainGame.Persistence.Contexts;
+using TrainGame.Persistence.Repositories;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -41,14 +44,15 @@ namespace TrainGame
                 options.ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
             });
 
+            services.AddSingleton<ITrainRepository, TrainRepository>();
+            services.AddSingleton<IObjectRepository, ObjectRepository>();
+            services.AddSingleton<ITrainService, TrainService>();
+            services.AddSingleton<IObjectService, ObjectService>();
+            services.AddSingleton<IOptionRepository, OptionRepository>();
             services.AddSingleton<IRandomGeneratorService, RandomGeneratorService>();
             services.AddSingleton<IGameService, GameService>();
 
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
-                    ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
-            });
+            services.AddSingleton<IQuestionService, QuestionService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

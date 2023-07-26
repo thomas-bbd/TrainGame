@@ -2,14 +2,13 @@ namespace TrainGame.Domain.Models
 {
     public class Question //Idea is that we populate this object based on what's in the DB
     {
-        public int id { get; set; }
-        public string text { get; set; }
-        public string answer {get; set; }
+        public Train Train { get; set; } = null!;
+        public Object Object { get; set; } = null!;
 
-        public Question()
+        public bool isObjectHeavier()
         {
-            text = "Is your mom heavier than a train?";
-            answer = "NO";
+            return Object.objectMass > Train.trainMass;
         }
+
     }
 }

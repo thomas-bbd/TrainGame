@@ -4,7 +4,7 @@ namespace TrainGame.Domain.Models
     {
         public string id { get; }
         public int score { get; set; }
-        public List<int> previousQuestions = new List<int>();
+        public List<Tuple<int, int>> previousQuestions = new List<Tuple<int, int>>();
         public Question currentQuestion {get; set; }
         
         public Game(string gameId)
