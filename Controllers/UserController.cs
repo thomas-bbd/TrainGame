@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Models;
 using TrainGame.Persistence.Contexts;
@@ -6,6 +7,7 @@ namespace TrainGame.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
@@ -22,7 +24,7 @@ public class UserController : ControllerBase
             var userName = HttpContext.User.Identity.Name;
 
             // Get the user based on the userName
-            User user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            User? user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
 
             if (user != null)
             {
@@ -47,7 +49,7 @@ public class UserController : ControllerBase
             var userName = HttpContext.User.Identity.Name;
 
             // Check if the user already exists
-            User existingUser = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            User? existingUser = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
             if (existingUser != null)
             {
                 return BadRequest("User already exists");
@@ -81,7 +83,7 @@ public class UserController : ControllerBase
         {
             var userName = HttpContext.User.Identity.Name;
 
-            User user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
+            User? user = _dbContext.Users.SingleOrDefault(u => u.userName == userName);
             if (user != null)
             {
                 int highScore = user.highScore;
