@@ -7,7 +7,6 @@ namespace TrainGame.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
 public class Controller : ControllerBase
 {
 
