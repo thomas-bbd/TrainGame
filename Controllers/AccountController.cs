@@ -25,10 +25,8 @@ public class AccountController : ControllerBase
 
         if (authenticateResult.Succeeded)
         {
-            // Get the Google username from the user claims
             var googleUsername = HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
-            // Store the userName in Claims
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, googleUsername),
@@ -39,11 +37,17 @@ public class AccountController : ControllerBase
 
             await HttpContext.SignInAsync(principal);
 
-            // Redirect to the required screen or URL
             return Redirect("/");
         }
 
-        // Handle authentication failure if needed
         return BadRequest("Authentication failed.");
+    }
+
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync("Cookies"); // Use "Cookies" authentication scheme here
+
+        return Redirect("/");
     }
 }

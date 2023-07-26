@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Services;
 using TrainGame.Domain.Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrainGame.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class GameController : ControllerBase
 {
     private readonly IGameService _gameService;
