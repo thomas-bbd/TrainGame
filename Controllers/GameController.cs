@@ -7,6 +7,7 @@ namespace TrainGame.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class GameController : ControllerBase
 {
     private readonly IGameService _gameService;
