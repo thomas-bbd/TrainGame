@@ -14,18 +14,5 @@ namespace TrainGame.Persistence.Contexts
         public DbSet<Train> Trains { get; set; }
         public DbSet<Object> Objects { get; set; }
         public DbSet<Option> Options { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Train>()
-                .HasMany(t => t.Objects)
-                .WithMany(o => o.Trains)
-                .UsingEntity<Option>(
-                    j => {
-                        j.Property("trainID").HasColumnName("trainID");
-                        j.Property("objectID").HasColumnName("objectID");
-                    }
-                );
-        }
     }
 }

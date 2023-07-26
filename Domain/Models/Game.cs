@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TrainGame.Domain.Models
 {
     public class Game
