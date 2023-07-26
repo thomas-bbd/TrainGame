@@ -46,7 +46,7 @@ public class AccountController : ControllerBase
     [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(GoogleDefaults.AuthenticationScheme);
+        await HttpContext.SignOutAsync("Cookies"); // Use "Cookies" authentication scheme here
 
         return Redirect("/");
     }
