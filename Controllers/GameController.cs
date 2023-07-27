@@ -20,19 +20,12 @@ public class GameController : ControllerBase
     [HttpGet]
     public Game CreateGame()
     {
-        Game game = _gameService.CreateGame();
-        return _gameService.NextQuestion(game.id);
-    }
-
-    [HttpGet("Answer")]
-    public bool Answer(string gameId, string answer)
-    {
-        return _gameService.CheckAnswer(gameId, answer);
+        return _gameService.CreateGame();
     }
 
     [HttpGet("Question")]
-    public Game Question(string gameId)
+    public Game Question(string gameId, string answer)
     {
-        return _gameService.NextQuestion(gameId);
+        return _gameService.NextQuestion(gameId, answer);
     }
 }

@@ -10,5 +10,10 @@ namespace TrainGame.Domain.Models
             return Object.objectMass > Train.trainMass;
         }
 
+        public string getHeavierName()
+        {
+            return Object.objectMass > Train.trainMass ? Object.objectName : Train.trainName;
+        }
+
     }
 }
