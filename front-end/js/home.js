@@ -1,3 +1,5 @@
+const jwtToken = localStorage.getItem("jwt");
+
 document.addEventListener("DOMContentLoaded", function () {
   const menuHamburger = document.querySelector(".burger");
   const navLinks = document.querySelector(".navbar");
