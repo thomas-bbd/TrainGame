@@ -26,17 +26,18 @@ namespace TrainGame
                 options.InvalidModelStateResponseFactory = InvalidModelStateResponseFactory.ProduceErrorResponse;
             });
             services.AddCognitoIdentity();
+            string cognitoUrl = Environment.GetEnvironmentVariable("COGNITO_URL") ?? String.Empty;
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(options => 
                 {
-                    options.Authority = Configuration["AWSCognito:Authority"];
+                    options.Authority = cognitoUrl;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["AWSCognito:Authority"],
+                        ValidIssuer = cognitoUrl,
                         ValidateAudience = false
                     };
                 }
@@ -52,7 +53,6 @@ namespace TrainGame
             services.AddSingleton<IObjectRepository, ObjectRepository>();
             services.AddSingleton<ITrainService, TrainService>();
             services.AddSingleton<IObjectService, ObjectService>();
-            services.AddSingleton<IOptionRepository, OptionRepository>();
             services.AddSingleton<IRandomGeneratorService, RandomGeneratorService>();
             services.AddSingleton<IGameService, GameService>();
             services.AddSingleton<IQuestionService, QuestionService>();

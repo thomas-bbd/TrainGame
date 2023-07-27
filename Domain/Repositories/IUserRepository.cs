@@ -1,4 +1,3 @@
-using TrainGame.Domain.Models;
 using User = TrainGame.Domain.Models.User;
 
 namespace TrainGame.Domain.Repository

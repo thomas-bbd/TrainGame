@@ -11,7 +11,8 @@ namespace TrainGame.Persistence.Repositories
         public BaseRepository(IConfiguration configuration)
         {
             var optionBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(configuration.GetConnectionString("DefaultConnection")));            
+            string url = Environment.GetEnvironmentVariable("DB_STRING") ?? String.Empty;       
+            optionBuilder.UseMySql(url, ServerVersion.AutoDetect(url));            
             _context = new AppDbContext(optionBuilder.Options);
         }
 

@@ -1,4 +1,3 @@
-using TrainGame.Domain.Models;
 using TrainGame.Domain.Services;
 using TrainGame.Domain.Repository;
 using Object = TrainGame.Domain.Models.Object;

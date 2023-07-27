@@ -37,6 +37,10 @@ namespace TrainGame.Services
                     Question question = _questionService.GetQuestion(ref game.previousQuestions);
                     game.currentQuestion = question;
                 }
+                else
+                {
+                    _liveGames.Remove(gameId);
+                }
                 
                 return game;
             }
