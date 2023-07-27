@@ -44,6 +44,8 @@ namespace TrainGame
             );
             
             services.AddSingleton<ITrainRepository, TrainRepository>();
+
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IObjectRepository, ObjectRepository>();
             services.AddSingleton<ITrainService, TrainService>();
             services.AddSingleton<IObjectService, ObjectService>();
