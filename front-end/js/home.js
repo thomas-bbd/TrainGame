@@ -6,3 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
     navLinks.classList.toggle("mobile-menu");
   });
 });
+
+function PopulateScoreboard() {
+  console.log('populating scoreboard')
+  var scoreboard = document.getElementById("scoreboard")
+  
+
+  scores.forEach(user => {
+    var li = document.createElement("LI");
+    li.innerText = `${user.userName} - `
+    var bold = document.createElement("B");
+    bold.innerText = user.highScore
+    li.appendChild(bold)
+    scoreboard.appendChild(li)
+  });
+}
