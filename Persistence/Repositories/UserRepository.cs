@@ -16,7 +16,8 @@ namespace TrainGame.Persistence.Repositories
         public User GetUser(String userName)
         {
             IQueryable<User> queryable = _context.Users;
-            return queryable.SingleOrDefault(u => u.userName == userName);
+            var x = queryable.FirstOrDefault(u => u.userName == userName);
+            return x;
         }
 
         public void AddUser(User newUser)

@@ -102,17 +102,18 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Score/Update")]
-    public IActionResult PostUserScore(int Score)//[FromBody] MyModel model)
+    public IActionResult PostUserScore([FromBody] UpdateScore score)//[FromBody] MyModel model)
     {
         try
         {
             Request.Headers.TryGetValue("Authorization", out var bearer);
             string userName = GetUsername(bearer);
             var user = _userRepository.GetUser(userName);
-            if (user.highScore < Score)
+            if (user.highScore < score.score)
             {
+                user.highScore = score.score;
                 _userRepository.UpdateUserScore(user);
-                return Ok("User added");
+                return Ok("User score updated");
 
             }
             return Ok("Doesn't beat their high score");
