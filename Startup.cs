@@ -16,7 +16,6 @@ namespace TrainGame
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddSwaggerGen();
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -57,12 +56,10 @@ namespace TrainGame
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseHttpsRedirection();
-
             }
 
             app.UseAuthentication();
