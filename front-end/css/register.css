@@ -1,0 +1,56 @@
+:root {
+    --main-bg-color: white;
+    --header-bg-color: #e5e5ddc5;
+    --main-txt-color: black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    margin: auto;
+}
+
+#register-btn {
+    background-color: var(--main-txt-color);
+    color: var(--main-bg-color);
+    border-radius: 0.5rem;
+}
+
+
+#snackbar {
+    visibility: hidden;
+    min-width: 5em;
+    width: 35%;
+    background-color: var(--yellow-bg-color);
+    color: var(--main-txt-color);
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 1em;
+    bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    height: 40rem;
+    width: 40rem;
+    background-color: var(--header-bg-color);
+    padding-left: 9rem;
+
+
+
+}
