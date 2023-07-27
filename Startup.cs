@@ -43,15 +43,16 @@ namespace TrainGame
                 }).AddJwtBearer(options => 
                 {
                     options.Authority = Configuration["AWSCognito:Authority"];
+                    options.Audience = "l0nhuftvutntsqncbcraodmct";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = false,
+                        ValidIssuer = Configuration["AWSCognito:Authority"],
                         ValidateAudience = false
                     };
                 }
             );
-
-            services.AddSingleton<IUserRepository, UserRepository>();
+            
             services.AddSingleton<ITrainRepository, TrainRepository>();
             services.AddSingleton<IObjectRepository, ObjectRepository>();
             services.AddSingleton<ITrainService, TrainService>();
