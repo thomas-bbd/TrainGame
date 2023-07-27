@@ -132,7 +132,7 @@ public class UserController : ControllerBase
         var handler = new JwtSecurityTokenHandler();
         var token = handler.ReadJwtToken(jwt);
         return token.Payload["username"].ToString() ?? string.Empty;
-    }
+    }    
     
     [HttpGet("Scores")]
     public IActionResult GetUserScores()
