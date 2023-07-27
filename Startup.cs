@@ -74,6 +74,18 @@ namespace TrainGame
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            // Add a basic Content Security Policy (CSP) to prevent unsafe practices
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
+                await next();
+            });
 
             app.UseHttpsRedirection();
 
