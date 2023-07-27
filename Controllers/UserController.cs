@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Models;
 using TrainGame.Domain.Repository;
-using TrainGame.Persistence.Contexts;
 
 namespace TrainGame.Controllers;
 
