@@ -37,5 +37,6 @@ cognitoUser.authenticateUser(authenticationDetails, {
 
 function Register(event) {
     event.preventDefault();
-    window.location.href = "/front-end/register.html"
+
+    window.location.href = "./front-end/register.html"
 }
