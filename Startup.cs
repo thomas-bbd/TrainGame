@@ -49,6 +49,13 @@ namespace TrainGame
                 options.ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ITrainRepository, TrainRepository>();
             services.AddSingleton<IObjectRepository, ObjectRepository>();
@@ -66,8 +73,9 @@ namespace TrainGame
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseHttpsRedirection();
             }
+            app.UseHttpsRedirection();
+
 
             // app.UseDefaultFiles();
             // app.UseStaticFiles();
@@ -77,12 +85,12 @@ namespace TrainGame
             app.UseRouting();
             app.UseAuthorization();
 
-            // app.UseStaticFiles(new StaticFileOptions
-            // {
-            //     FileProvider = new PhysicalFileProvider(
-            //         Path.Combine(Directory.GetCurrentDirectory(), "front-end")),
-            //     RequestPath = "/Home"
-            // });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "front-end")),
+                RequestPath = "/Home/"
+            });
 
             app.UseEndpoints(endpoints =>
             {
