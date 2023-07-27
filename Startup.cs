@@ -41,6 +41,10 @@ namespace TrainGame
                     };
                 }
             );
+
+            services.AddCors(p => p.AddPolicy("corsapp", builder => {
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            }));
             
             services.AddSingleton<ITrainRepository, TrainRepository>();
 
@@ -64,6 +68,7 @@ namespace TrainGame
 
             app.UseAuthentication();
             app.UseRouting();
+            app.UseCors("corsapp");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
