@@ -1,3 +1,4 @@
+using System.Net;
 using TrainGame.Domain.Models;
 using TrainGame.Domain.Services;
 
@@ -41,7 +42,7 @@ namespace TrainGame.Services
             }
             else
             {
-                throw new ArgumentException("gameId doesn't correspond to a game");
+                throw new HttpRequestException("GameId not found", null,  HttpStatusCode.NotFound);
             }
         }
 
