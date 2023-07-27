@@ -8,16 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function PopulateScoreboard() {
-  console.log('populating scoreboard')
-  var scoreboard = document.getElementById("scoreboard")
-  
+  var scoreboard = document.getElementById("scoreboard");
 
   scores.forEach(user => {
     var li = document.createElement("LI");
-    li.innerText = `${user.userName} - `
+    li.innerText = `${user.userName} - `;
     var bold = document.createElement("B");
-    bold.innerText = user.highScore
-    li.appendChild(bold)
-    scoreboard.appendChild(li)
+    bold.innerText = user.highScore;
+    li.appendChild(bold);
+    scoreboard.appendChild(li);
   });
 }
