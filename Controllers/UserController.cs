@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainGame.Domain.Models;
@@ -22,10 +23,13 @@ public class UserController : ControllerBase
     {
         try
         {
-            var userName = HttpContext.User.Identity.Name;
-
+            Request.Headers.TryGetValue("Authorization", out var bearer);
+            var jwt = bearer.ToString().Split(" ")[1];
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
+            string username = token.Payload["username"].ToString() ?? string.Empty;
             // Get the user based on the userName
-            var user = _userRepository.GetUser(userName);
+            var user = _userRepository.GetUser(username);
 
             if (user != null)
             {
@@ -47,8 +51,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var userName = HttpContext.User.Identity.Name;
-
+            Request.Headers.TryGetValue("Authorization", out var bearer);
+            string userName = GetUsername(bearer);
             // Check if the user already exists
             var existingUser = _userRepository.GetUser(userName);
             if (existingUser != null)
@@ -78,8 +82,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var userName = HttpContext.User.Identity.Name;
-
+            Request.Headers.TryGetValue("Authorization", out var bearer);
+            string userName = GetUsername(bearer);
             var user = _userRepository.GetUser(userName);
             if (user != null)
             {
@@ -103,7 +107,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var userName = HttpContext.User.Identity.Name;
+        Request.Headers.TryGetValue("Authorization", out var bearer);
+        string userName = GetUsername(bearer);
 
             var user = new User
             {
@@ -121,6 +126,14 @@ public class UserController : ControllerBase
         }
     }
 
+    private string GetUsername(String bearer)
+    {
+        var jwt = bearer.ToString().Split(" ")[1];
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(jwt);
+        return token.Payload["username"].ToString() ?? string.Empty;
+    }    
+    
     [HttpGet("Scores")]
     public IActionResult GetUserScores()
     {
