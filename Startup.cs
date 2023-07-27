@@ -81,6 +81,8 @@ namespace TrainGame
 
             app.UseHttpsRedirection();
 
+            app.UseHttpsRedirection();
+
             // app.UseDefaultFiles();
             // app.UseStaticFiles();
 
