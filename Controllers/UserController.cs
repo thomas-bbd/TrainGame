@@ -120,4 +120,12 @@ public class UserController : ControllerBase
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
+    [HttpGet("Scores")]
+    public IActionResult GetUserScores()
+    {
+        var scores = _userRepository.ListAll();
+        scores.OrderBy(x => x.highScore);
+        return Ok(scores.Take(10));
+    }
 }
