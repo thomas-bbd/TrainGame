@@ -284,3 +284,17 @@ input[type="radio"]:checked ~ .option {
     opacity: 1;
   }
 }
+
+.custom-loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(#569af4 0 90deg, #e4e4ed 0 180deg);
+  animation: s1 2s infinite linear;
+}
+
+@keyframes s1 {
+  100% {
+    transform: rotate(0.5turn);
+  }
+}

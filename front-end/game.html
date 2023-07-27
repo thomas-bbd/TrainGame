@@ -8,19 +8,19 @@
     <script src="./js/game.js"></script>
     <script src="./js/navigation.js"></script>
   </head>
-  <body onload="NextQuestion(0)">
+  <body onload="LoadGame()">
     <main>
       <!-- creating a modal for when quiz ends -->
       <section class="modal-container" id="score-modal">
         <section class="modal-content-container">
-          <h1>Congratulations, Quiz Completed.</h1>
+          <h1>Game Over!</h1>
 
           <article class="grade-details">
-            <p>Right Answers : <span id="right-answers"></span></p>
+            <p>Score : <span id="final-score"></span></p>
           </article>
 
           <article class="modal-button-container">
-            <button onclick="closeScoreModal()">Continue</button>
+            <button onclick="redirectButton('home')">Continue</button>
           </article>
         </section>
       </section>
@@ -31,7 +31,7 @@
         </article>
 
         <article class="game-question-container">
-          <h1 id="display-question"></h1>
+          <h1 id="display-question">Which one is more heavier</h1>
         </article>
 
         <article class="game-options-container">
@@ -44,7 +44,6 @@
               </article>
             </article>
           </article>
-
           <article>
             <input
               type="radio"
@@ -57,6 +56,7 @@
               for="option-one"
               class="option"
               id="option-one-label"
+              name="answer"
             ></label>
           </article>
 
@@ -72,13 +72,16 @@
               for="option-two"
               class="option"
               id="option-two-label"
+              name="answer"
             ></label>
           </article>
         </article>
 
         <article class="next-button-container">
           <button onclick="redirectButton('home')">Quit Game</button>
-          <button onclick="handleNextQuestion()">Next Question</button>
+          <button id="nextButton" onclick="NextQuestion()">
+            Next Question
+          </button>
         </article>
       </section>
     </main>
