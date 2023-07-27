@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
+using Microsoft.Extensions.FileProviders;
 
 namespace TrainGame
 {
@@ -37,7 +38,11 @@ namespace TrainGame
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
             })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => {
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.Cookie.IsEssential = true;
+            })
             .AddGoogle(options =>
             {
                 options.ClientId = Configuration["Authentication:Google:ClientId"] ?? throw new ArgumentNullException("Authentication:Google:ClientId");
@@ -57,17 +62,27 @@ namespace TrainGame
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHttpsRedirection();
             }
 
+            // app.UseDefaultFiles();
+            // app.UseStaticFiles();
+
             app.UseAuthentication();
-
             app.UseSwaggerUI();
-
             app.UseRouting();
             app.UseAuthorization();
+
+            // app.UseStaticFiles(new StaticFileOptions
+            // {
+            //     FileProvider = new PhysicalFileProvider(
+            //         Path.Combine(Directory.GetCurrentDirectory(), "front-end")),
+            //     RequestPath = "/Home"
+            // });
 
             app.UseEndpoints(endpoints =>
             {
