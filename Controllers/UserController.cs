@@ -106,18 +106,17 @@ public class UserController : ControllerBase
     {
         try
         {
-        Request.Headers.TryGetValue("Authorization", out var bearer);
-        string userName = GetUsername(bearer);
-
-            var user = new User
+            Request.Headers.TryGetValue("Authorization", out var bearer);
+            string userName = GetUsername(bearer);
+            var user = _userRepository.GetUser(userName);
+            if (user.highScore < Score)
             {
-                userName = userName,
-                highScore = 0
-            };
+                _userRepository.UpdateUserScore(user);
+                return Ok("User added");
 
-            _userRepository.UpdateUserScore(user);
+            }
+            return Ok("Doesn't beat their high score");
 
-            return Ok("User added");
         }
         catch (Exception ex)
         {
