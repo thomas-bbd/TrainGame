@@ -1,17 +1,10 @@
 using TrainGame.Controllers.Config;
 using TrainGame.Domain.Services;
 using TrainGame.Domain.Repository;
-using TrainGame.Extensions;
 using TrainGame.Services;
-using TrainGame.Persistence.Contexts;
 using TrainGame.Persistence.Repositories;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace TrainGame
 {
@@ -32,32 +25,23 @@ namespace TrainGame
                 // Adds a custom error response factory when ModelState is invalid
                 options.InvalidModelStateResponseFactory = InvalidModelStateResponseFactory.ProduceErrorResponse;
             });
-
+            services.AddCognitoIdentity();
             services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None; // Set SameSite to None
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Set SecurePolicy to Always
-                options.Cookie.IsEssential = true;
-            })
-            .AddGoogle(options =>
-            {
-                options.ClientId = Configuration["Authentication:Google:ClientId"] ?? throw new ArgumentNullException("Authentication:Google:ClientId");
-                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? throw new ArgumentNullException("Authentication:Google:ClientSecret");
-            });
-
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
-
-            services.AddSingleton<IUserRepository, UserRepository>();
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(options => 
+                {
+                    options.Authority = Configuration["AWSCognito:Authority"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["AWSCognito:Authority"],
+                        ValidateAudience = false
+                    };
+                }
+            );
+            
             services.AddSingleton<ITrainRepository, TrainRepository>();
             services.AddSingleton<IObjectRepository, ObjectRepository>();
             services.AddSingleton<ITrainService, TrainService>();
@@ -73,36 +57,12 @@ namespace TrainGame
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHttpsRedirection();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
-
-            // Add a basic Content Security Policy (CSP) to prevent unsafe practices
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'");
-                await next();
-            });
-
-            app.UseHttpsRedirection();
-
-            // app.UseDefaultFiles();
-            // app.UseStaticFiles();
 
             app.UseAuthentication();
-            app.UseSwaggerUI();
             app.UseRouting();
             app.UseAuthorization();
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "front-end")),
-                RequestPath = "/Home"
-            });
 
             app.UseEndpoints(endpoints =>
             {
