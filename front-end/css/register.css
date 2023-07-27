@@ -1,56 +1,89 @@
-:root {
-    --main-bg-color: white;
-    --header-bg-color: #e5e5ddc5;
-    --main-txt-color: black;
-}
-
-* {
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: #fff;
     margin: 0;
     padding: 0;
-}
-
-main {
-    height: 100vh;
-    display: flex;
-    align-items: center;    
-    justify-content: center;
-    margin: auto;
-}
-
-#register-btn {
-    background-color: var(--main-txt-color);
-    color: var(--main-bg-color);
-    border-radius: 0.5rem;
-}
-
-
-#snackbar {
-    visibility: hidden;
-    min-width: 5em;
-    width: 35%;
-    background-color: var(--yellow-bg-color);
-    color: var(--main-txt-color);
-    text-align: center;
-    border-radius: 0.5rem;
-    padding: 1em;
-    bottom: 0.5rem;
-    font-size: 1rem;
-}
-
-#snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-form {
+  }
+  
+  main {
     display: flex;
     flex-direction: column;
-    height: 40rem;
-    width: 40rem;
-    background-color: var(--header-bg-color);
-    padding-left: 9rem;
-
-
-
-}
+    gap: 3rem;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    width: 40%;
+    margin-top: 7rem;
+    justify-content: space-around;
+    align-items: center;
+  }
+  img {
+    width: 15rem;
+    height: 20rem;
+  }
+  aside {
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2,h1 {
+    text-align: center;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="submit"],
+  input[type="auth-code"],
+  input[type="button"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2d2a2a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #000000;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    body {
+      background-color: #fff;
+    }
+    section {
+      display: none;
+    }
+    main {
+      display: flex;
+      flex-direction: row;
+      margin: auto;
+      width: 80%;
+      height: 70%;
+    }
+    aside {
+      margin: auto;
+    }
+  }
+  
+  #incognito-lable{
+    font-size:15px;
+  }
