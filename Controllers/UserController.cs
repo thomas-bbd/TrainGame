@@ -138,7 +138,7 @@ public class UserController : ControllerBase
     public IActionResult GetUserScores()
     {
         var scores = _userRepository.ListAll();
-        scores.OrderBy(x => x.highScore);
+        scores = scores.OrderByDescending(x => x.highScore).ToList();
         return Ok(scores.Take(10));
     }
 }
