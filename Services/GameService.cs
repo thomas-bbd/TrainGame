@@ -16,57 +16,43 @@ namespace TrainGame.Services
             _questionService = questionService;
         }
 
-        public bool CheckAnswer(string gameId, string answer)
-        {
-            //if correct send object containing score and next question? Or Just score and user clicks a button to get next question?
-            //if incorrect redirect to game over screen? Or send incorrect and user clicks button?
-            Game game;
-            if (_liveGames.TryGetValue(gameId, out game)) 
-            {
-                if (!game.gameOver){
-                    if (String.Equals(answer, "YES", StringComparison.OrdinalIgnoreCase) && game.currentQuestion.isObjectHeavier()) //kinda sucks
-                    {
-                        game.IncreaseScore();
-                        return true;
-                    } else if (String.Equals(answer, "NO", StringComparison.OrdinalIgnoreCase) && !game.currentQuestion.isObjectHeavier()){
-                        return true; //??
-                    } else {
-                        game.gameOver = true;
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false; //??
-                }
-            }
-            else
-            {
-                throw new ArgumentException("gameId doesn't correspond to a game");
-            }
-        }
-
         public Game CreateGame()
         {
             string id = CreateId();
             Game game = new Game(id);
+            game.currentQuestion = _questionService.GetQuestion(ref game.previousQuestions);
             _liveGames.Add(id, game);
             return game;
         }
 
-        public Game NextQuestion(string gameId)
+        public Game NextQuestion(string gameId, String answer)
         {
             Game game;
             if (_liveGames.TryGetValue(gameId, out game)) 
             {
-                Question question = _questionService.GetQuestion(ref game.previousQuestions);
-                game.currentQuestion = question;
+                CheckAnswer(ref game, answer);
+                if (!game.gameOver) 
+                {
+                    Question question = _questionService.GetQuestion(ref game.previousQuestions);
+                    game.currentQuestion = question;
+                }
+                
                 return game;
             }
             else
             {
                 throw new ArgumentException("gameId doesn't correspond to a game");
             }
+        }
+
+        private void CheckAnswer(ref Game game, string answer)
+        {
+            if (String.Equals(answer, game.currentQuestion.getHeavierName(), StringComparison.OrdinalIgnoreCase)) //kinda sucks
+                {
+                    game.IncreaseScore();
+                } else {
+                    game.gameOver = true;
+                }
         }
 
         private string CreateId()
