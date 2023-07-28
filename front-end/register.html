@@ -17,37 +17,34 @@
         <script defer src="./js/register.js"></script>
     
     </head>
-    <body class="primary-bg">
-        <div id="loader-overlay">
-            <div id="loader"></div>
-        </div>
-        <main class="login-main">
+    <body>
+        <main>
                 <section>
                     <img src="./images/signup.svg" alt="register">
                 </section>
-                <aside id="main-aside" style="display: block;">
+                <aside id="main-aside">
                     <section id="register-section">
                         <h2>Register</h2>
                         <form id="registerUserForm" onsubmit="registerUser(event)" >
-                            <input required type="text" style="font-size: 1.5em;" id="username" placeholder="username"/>
-                            <input required type="email" style="font-size: 1.5em;" id="email" placeholder="email"/>
-                            <input required type="password" style="font-size: 1.5em;" id="password" placeholder="password" onchange="validatePassword(password)"/>
+                            <input required type="text"  id="username" placeholder="username"/>
+                            <input required type="email"  id="email" placeholder="email"/>
+                            <input required type="password"  id="password" placeholder="password" onchange="validatePassword(password)"/>
                             <p id="error-inline"></p>
                             <input type="submit" class="btn-class"  value="Sign up"/>
                         </form>
                         <p>Already have an account? Login <button id="login-redirect">here</button></p>
                     </section>
     
-                    <section id="auth-section"  style="display: none;">
+                    <section id="auth-section">
                         <form id="confirmRegister" onsubmit="authorizeUser(event)">
-                            <input required type="auth-code" style="font-size: 1.5em;" id="auth-code" placeholder="Authorization Code"/>
-                            <label for="auth-code" class="secondary-text">Please check your inbox for an authorization code</label>
-                            <input type="submit" class="btn-class"  value="Submit" style="margin-top: 1em;"/>
+                            <input required type="auth-code"  id="auth-code" placeholder="Authorization Code"/>
+                            <label for="auth-code" >Please check your inbox for an authorization code</label>
+                            <input type="submit" class="btn-class"  value="Submit" />
                         </form>
                     </section>
                 </aside>
     
-            <article class="overlay" id="popupOverlay" style="display: none;">
+            <article class="overlay" id="popupOverlay" >
                 <section class="popup">
                 <h2>Success!</h2>
                 <p>Thank you for registering</p>

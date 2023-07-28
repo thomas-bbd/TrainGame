@@ -16,6 +16,9 @@ body {
     margin-top: 7rem;
   }
 
+  input{
+    font-size: 1.5em;
+  }
   img {
     width: 15rem;
     height: 20rem;
@@ -81,3 +84,18 @@ form {
     }
   }
   
+  #main-aside{
+    display: block;
+  }
+
+  #register-section{
+    display: block;
+  }
+
+  #auth-section{
+    display: none;
+  }
+
+  #popupOverlay{
+    display: none;
+  }
