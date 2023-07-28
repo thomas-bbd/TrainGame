@@ -36,21 +36,18 @@
                             <input type="submit" class="btn-class"  value="Sign up"/>
                         </form>
                         <p>Already have an account? Login <button id="login-redirect">here</button></p>
-                        <!-- used to have navToLogin -->
                     </section>
     
                     <section id="auth-section"  style="display: none;">
                         <form id="confirmRegister" onsubmit="authorizeUser(event)">
                             <input required type="auth-code" style="font-size: 1.5em;" id="auth-code" placeholder="Authorization Code"/>
                             <label for="auth-code" class="secondary-text">Please check your inbox for an authorization code</label>
-                            <input type="submit" class="accent-button secondary-text"  value="Submit" style="margin-top: 1em;"/>
+                            <input type="submit" class="btn-class"  value="Submit" style="margin-top: 1em;"/>
                         </form>
                     </section>
                 </aside>
     
-            <!-- Popup overlay -->
             <article class="overlay" id="popupOverlay" style="display: none;">
-                <!-- Popup container -->
                 <section class="popup">
                 <h2>Success!</h2>
                 <p>Thank you for registering</p>
