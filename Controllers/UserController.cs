@@ -109,6 +109,11 @@ public class UserController : ControllerBase
             Request.Headers.TryGetValue("Authorization", out var bearer);
             string userName = GetUsername(bearer);
             var user = _userRepository.GetUser(userName);
+            if (user == null)
+            {
+                user = new User{userName = userName, highScore=0};
+                _userRepository.AddUser(user);
+            }
             if (user.highScore < score.score)
             {
                 user.highScore = score.score;
